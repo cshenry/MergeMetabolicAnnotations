@@ -1,0 +1,15 @@
+module-name:
+    MergeMetabolicAnnotations
+
+module-description:
+    This module implements tools for importing, comparing and merging 3rd party metabolic annotations
+
+service-language:
+    python
+
+module-version:
+    0.0.1
+
+owners:
+    [PatrikDi,kimbrel1]
+

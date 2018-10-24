@@ -31,18 +31,18 @@ module MergeMetabolicAnnotations {
     genome_ref output_genome_ref;
     string report_name;
     string report_ref;
-  } ImportMetabolicAnnotationsResults
+  } ImportMetabolicAnnotationsResults;
 
   typedef structure {
     string report_name;
     string report_ref;
-  } CompareMetabolicAnnotationsResults
+  } CompareMetabolicAnnotationsResults;
 
   typedef structure {
     genome_ref output_genome_ref;
     string report_name;
     string report_ref;
-  } MergeMetabolicAnnotationsResults
+  } MergeMetabolicAnnotationsResults;
 
 
   funcdef import_metabolic_annotations(ImportMetabolicAnnotationsParams params)

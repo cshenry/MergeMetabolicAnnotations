@@ -23,7 +23,7 @@ class MergeMetabolicAnnotations(object):
             self, url=None, timeout=30 * 60, user_id=None,
             password=None, token=None, ignore_authrc=False,
             trust_all_ssl_certificates=False,
-            auth_svc='https://kbase.us/services/authorization/Sessions/Login'):
+            auth_svc='https://ci.kbase.us/services/auth/api/legacy/KBase/Sessions/Login'):
         if url is None:
             raise ValueError('A url is required')
         self._service_ver = None
@@ -32,6 +32,33 @@ class MergeMetabolicAnnotations(object):
             token=token, ignore_authrc=ignore_authrc,
             trust_all_ssl_certificates=trust_all_ssl_certificates,
             auth_svc=auth_svc)
+
+    def import_annotations(self, params, context=None):
+        """
+        :param params: instance of mapping from String to unspecified object
+        :returns: instance of type "ReportResults" -> unspecified object
+        """
+        return self._client.call_method(
+            'MergeMetabolicAnnotations.import_annotations',
+            [params], self._service_ver, context)
+
+    def compare_metabolic_annotations(self, params, context=None):
+        """
+        :param params: instance of mapping from String to unspecified object
+        :returns: instance of type "ReportResults" -> unspecified object
+        """
+        return self._client.call_method(
+            'MergeMetabolicAnnotations.compare_metabolic_annotations',
+            [params], self._service_ver, context)
+
+    def merge_metabolic_annotations(self, params, context=None):
+        """
+        :param params: instance of mapping from String to unspecified object
+        :returns: instance of type "ReportResults" -> unspecified object
+        """
+        return self._client.call_method(
+            'MergeMetabolicAnnotations.merge_metabolic_annotations',
+            [params], self._service_ver, context)
 
     def status(self, context=None):
         return self._client.call_method('MergeMetabolicAnnotations.status',

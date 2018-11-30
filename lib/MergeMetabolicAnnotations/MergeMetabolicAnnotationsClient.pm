@@ -12,6 +12,7 @@ eval {
     $get_time = sub { Time::HiRes::gettimeofday() };
 };
 
+use Bio::KBase::AuthToken;
 
 # Client version should match Impl version
 # This is a Semantic Version number,
@@ -26,6 +27,7 @@ MergeMetabolicAnnotations::MergeMetabolicAnnotationsClient
 
 
 A KBase module: MergeMetabolicAnnotations
+This module implements tools for importing, comparing and merging 3rd party metabolic annotations.
 
 
 =cut
@@ -74,6 +76,27 @@ sub new
 	push(@{$self->{headers}}, 'Kbrpc-Errordest', $self->{kbrpc_error_dest});
     }
 
+    #
+    # This module requires authentication.
+    #
+    # We create an auth token, passing through the arguments that we were (hopefully) given.
+
+    {
+	my %arg_hash2 = @args;
+	if (exists $arg_hash2{"token"}) {
+	    $self->{token} = $arg_hash2{"token"};
+	} elsif (exists $arg_hash2{"user_id"}) {
+	    my $token = Bio::KBase::AuthToken->new(@args);
+	    if (!$token->error_message) {
+	        $self->{token} = $token->token;
+	    }
+	}
+	
+	if (exists $self->{token})
+	{
+	    $self->{client}->{token} = $self->{token};
+	}
+    }
 
     my $ua = $self->{client}->ua;	 
     my $timeout = $ENV{CDMI_TIMEOUT} || (30 * 60);	 
@@ -84,6 +107,258 @@ sub new
 }
 
 
+
+
+=head2 import_annotations
+
+  $output = $obj->import_annotations($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a reference to a hash where the key is a string and the value is an UnspecifiedObject, which can hold any non-null object
+$output is a MergeMetabolicAnnotations.ReportResults
+ReportResults is an UnspecifiedObject, which can hold any non-null object
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a reference to a hash where the key is a string and the value is an UnspecifiedObject, which can hold any non-null object
+$output is a MergeMetabolicAnnotations.ReportResults
+ReportResults is an UnspecifiedObject, which can hold any non-null object
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub import_annotations
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function import_annotations (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to import_annotations:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'import_annotations');
+	}
+    }
+
+    my $url = $self->{url};
+    my $result = $self->{client}->call($url, $self->{headers}, {
+	    method => "MergeMetabolicAnnotations.import_annotations",
+	    params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'import_annotations',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method import_annotations",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'import_annotations',
+				       );
+    }
+}
+ 
+
+
+=head2 compare_metabolic_annotations
+
+  $output = $obj->compare_metabolic_annotations($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a reference to a hash where the key is a string and the value is an UnspecifiedObject, which can hold any non-null object
+$output is a MergeMetabolicAnnotations.ReportResults
+ReportResults is an UnspecifiedObject, which can hold any non-null object
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a reference to a hash where the key is a string and the value is an UnspecifiedObject, which can hold any non-null object
+$output is a MergeMetabolicAnnotations.ReportResults
+ReportResults is an UnspecifiedObject, which can hold any non-null object
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub compare_metabolic_annotations
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function compare_metabolic_annotations (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to compare_metabolic_annotations:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'compare_metabolic_annotations');
+	}
+    }
+
+    my $url = $self->{url};
+    my $result = $self->{client}->call($url, $self->{headers}, {
+	    method => "MergeMetabolicAnnotations.compare_metabolic_annotations",
+	    params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'compare_metabolic_annotations',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method compare_metabolic_annotations",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'compare_metabolic_annotations',
+				       );
+    }
+}
+ 
+
+
+=head2 merge_metabolic_annotations
+
+  $output = $obj->merge_metabolic_annotations($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a reference to a hash where the key is a string and the value is an UnspecifiedObject, which can hold any non-null object
+$output is a MergeMetabolicAnnotations.ReportResults
+ReportResults is an UnspecifiedObject, which can hold any non-null object
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a reference to a hash where the key is a string and the value is an UnspecifiedObject, which can hold any non-null object
+$output is a MergeMetabolicAnnotations.ReportResults
+ReportResults is an UnspecifiedObject, which can hold any non-null object
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub merge_metabolic_annotations
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function merge_metabolic_annotations (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to merge_metabolic_annotations:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'merge_metabolic_annotations');
+	}
+    }
+
+    my $url = $self->{url};
+    my $result = $self->{client}->call($url, $self->{headers}, {
+	    method => "MergeMetabolicAnnotations.merge_metabolic_annotations",
+	    params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'merge_metabolic_annotations',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method merge_metabolic_annotations",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'merge_metabolic_annotations',
+				       );
+    }
+}
+ 
   
 sub status
 {
@@ -119,7 +394,7 @@ sub status
 sub version {
     my ($self) = @_;
     my $result = $self->{client}->call($self->{url}, $self->{headers}, {
-        method => "${last_module.module_name}.version",
+        method => "MergeMetabolicAnnotations.version",
         params => [],
     });
     if ($result) {
@@ -127,16 +402,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => '${last_method.name}',
+                method_name => 'merge_metabolic_annotations',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method ${last_method.name}",
+            error => "Error invoking method merge_metabolic_annotations",
             status_line => $self->{client}->status_line,
-            method_name => '${last_method.name}',
+            method_name => 'merge_metabolic_annotations',
         );
     }
 }
@@ -170,6 +445,32 @@ sub _validate_version {
 }
 
 =head1 TYPES
+
+
+
+=head2 ReportResults
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+an UnspecifiedObject, which can hold any non-null object
+</pre>
+
+=end html
+
+=begin text
+
+an UnspecifiedObject, which can hold any non-null object
+
+=end text
+
+=back
 
 
 

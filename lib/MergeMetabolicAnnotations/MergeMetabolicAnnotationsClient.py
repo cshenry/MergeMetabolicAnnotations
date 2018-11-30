@@ -33,6 +33,33 @@ class MergeMetabolicAnnotations(object):
             trust_all_ssl_certificates=trust_all_ssl_certificates,
             auth_svc=auth_svc)
 
+    def import_annotations(self, params, context=None):
+        """
+        :param params: instance of mapping from String to unspecified object
+        :returns: instance of type "ReportResults" -> unspecified object
+        """
+        return self._client.call_method(
+            'MergeMetabolicAnnotations.import_annotations',
+            [params], self._service_ver, context)
+
+    def compare_metabolic_annotations(self, params, context=None):
+        """
+        :param params: instance of mapping from String to unspecified object
+        :returns: instance of type "ReportResults" -> unspecified object
+        """
+        return self._client.call_method(
+            'MergeMetabolicAnnotations.compare_metabolic_annotations',
+            [params], self._service_ver, context)
+
+    def merge_metabolic_annotations(self, params, context=None):
+        """
+        :param params: instance of mapping from String to unspecified object
+        :returns: instance of type "ReportResults" -> unspecified object
+        """
+        return self._client.call_method(
+            'MergeMetabolicAnnotations.merge_metabolic_annotations',
+            [params], self._service_ver, context)
+
     def status(self, context=None):
         return self._client.call_method('MergeMetabolicAnnotations.status',
                                         [], self._service_ver, context)

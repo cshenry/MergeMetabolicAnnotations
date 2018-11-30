@@ -5,6 +5,8 @@ This module implements tools for importing, comparing and merging 3rd party meta
 
 module MergeMetabolicAnnotations {
 
+  typedef UnspecifiedObject ReportResults;
+
   funcdef import_annotations(mapping<string,UnspecifiedObject> params)
     returns (ReportResults output) authentication required;
 

@@ -92,7 +92,7 @@
     "service-mapping" : {
       "url" : "",
       "name" : "MergeMetabolicAnnotations",
-      "method" : "ImportAnnotations",
+      "method" : "import_annotations",
       "input_mapping" : [
         {
           "narrative_system_variable": "workspace",

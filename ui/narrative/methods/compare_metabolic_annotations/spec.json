@@ -54,7 +54,7 @@
     "service-mapping": {
        "url": "",
        "name": "MergeMetabolicAnnotations",
-       "method": "CompareMetabolicAnnotations",
+       "method": "compare_metabolic_annotations",
        "input_mapping": [
            {
                "narrative_system_variable": "workspace",

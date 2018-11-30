@@ -1,7 +1,8 @@
 {
+  "name" : "Import Annotations",
   "ver" : "0.0.1",
   "authors" : ["chenry","jakimbrel","patrikd"],
-  "contact" : "help@kbase.us",
+  "contact" : "http://kbase.us/contact-us/",
   "visible" : true,
   "categories" : [ "inactive","genome_annotation","upload" ],
   "widgets": {

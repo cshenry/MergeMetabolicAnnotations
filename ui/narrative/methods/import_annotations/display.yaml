@@ -2,7 +2,7 @@
 # define display information
 #
 
-name     : Import annotations into a genome from staging
+name     : Import Annotations from Staging
 subtitle : Import a file in TSV format from your staging area with new annotations to add to an existing genome
 tooltip  : Import a file in TSV format from your staging area with new annotations to add to an existing genome
 

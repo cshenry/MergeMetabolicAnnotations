@@ -30,6 +30,18 @@ This module implements tools for importing, comparing and merging 3rd party meta
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
+        self.version = 1
+        self.callback_url = config['SDK_CALLBACK_URL']
+        self.token = config['KB_AUTH_TOKEN']
+        self.dfu = DataFileUtil(self.callback_url)
+        self.uploader_utils = UploaderUtil(config)
+        self.ontology_lookup = {
+            "ec": "KBaseOntology/ec_ontology",
+            "keggko": "KBaseOntology/ko_ontology",
+            "keggro": "KBaseOntology/keggro_ontology",
+            "metacyc": "KBaseOntology/metacyc_ontology",
+            "modelseed": "KBaseOntology/modelseed_ontology"
+        }
         #END_CONSTRUCTOR
         pass
 
@@ -42,6 +54,70 @@ This module implements tools for importing, comparing and merging 3rd party meta
         # ctx is the context object
         # return variables are: output
         #BEGIN import_annotations
+        log('--->\nrunning MergeMetabolicAnnotations.import_annotations\n' +
+            'params:\n{}'.format(json.dumps(params, indent=1)))
+
+        #self.validate_import_media_from_staging_params(params)
+
+        download_staging_file_params = {
+            'staging_file_subdir_path': params.get('annotation_file')
+        }
+        scratch_file_path = self.dfu.download_staging_file(
+                        download_staging_file_params).get('copy_file_path')
+        file = {
+            'path': scratch_file_path
+        }
+        
+        #Enter python code to parse TSV file with name scratch_file_path
+        #LLNL
+        
+        #Get ontology dictiona object
+        if !self.ontology_lookup.get('params.get('ontology')'):
+            raise ValueError('params.get('ontology')'+" not found in system!")
+        
+        get_output = self.dfu.get_objects({
+            'object_refs': [self.ontology_lookup.get('params.get('ontology')')]
+        })['data'][0]
+        ontology_ref = get_output['info'][]+"/"+get_output['info'][]+"/"+get_output['info'][]
+        ontology_object = get_output['data']                                                           
+        
+        #Validate all input ontology terms against ontology dictionary (either filter out bad terms or throw error)
+        #LLNL
+        
+        #Retrieve genome object from workspace
+        genomeobj = self.dfu.get_objects({
+            'object_refs': [params.get('genome')]
+        })['data'][0]['data']
+        
+        #Validate all input gene IDs against the genes,cds, or mRNA in the genome object
+        #LLNL
+                                                                                                 
+        #Load up ontology events
+        new_ontology_event = {
+                "id": params.get('name'),
+                "method": "MergeMetabolicAnnotations.import_annotations",
+                "method_version": self.version,
+                "ontology_ref": ontology_ref,
+                "timestamp": timestamp,
+                "description": params.get('description')
+            }
+        
+        ontology_events = genomeobj.get('ontology_events')
+        if ontology_events:        
+            ontology_events.append()
+        else:
+            ontology_events = [new_ontology_event];
+            genomeobj['ontology_events'] = ontology_events
+                     
+        #Load up ontology terms in genomes features
+        #LLNL
+        
+        #Save genome objects back to workspace setting the genome_ref variable to the workspace reference
+        #ANL
+        
+        self.uploader_utils.update_staging_service(params.get('annotation_file'), genome_ref)
+
+        output = {'obj_ref': ref.get('ref')}
         #END import_annotations
 
         # At some point might do deeper type checking...

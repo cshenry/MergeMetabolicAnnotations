@@ -4,7 +4,7 @@
   "authors" : ["chenry","jakimbrel","patrikd"],
   "contact" : "http://kbase.us/contact-us/",
   "visble" : true,
-  "categories" : ["active","genome_annotation"],
+  "categories" : ["active","annotation"],
   "widgets" : {
     "input" : null,
     "output" : ""

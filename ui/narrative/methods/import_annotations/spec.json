@@ -4,7 +4,7 @@
   "authors" : ["chenry","jakimbrel","patrikd"],
   "contact" : "http://kbase.us/contact-us/",
   "visible" : true,
-  "categories" : [ "inactive","genome_annotation","upload" ],
+  "categories" : [ "active","annotation","upload" ],
   "widgets": {
     "input": "kbaseNarrativeMethodInput",
     "output" : "kbaseGenomeView"

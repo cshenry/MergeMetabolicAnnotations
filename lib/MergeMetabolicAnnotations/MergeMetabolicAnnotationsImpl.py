@@ -20,7 +20,7 @@ This module implements tools for importing, comparing and merging 3rd party meta
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://github.com/jeffkimbrel/MergeMetabolicAnnotations"
+    GIT_URL = "https://github.com/jeffkimbrel/MergeMetabolicAnnotations.git"
     GIT_COMMIT_HASH = "c97c2a861638ba7ee81821112a528020e2ddfd9e"
 
     #BEGIN_CLASS_HEADER

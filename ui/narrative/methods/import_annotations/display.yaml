@@ -24,6 +24,13 @@ suggestions :
             []
 
 parameters :
+    ontology_name :
+        ui-name : |
+            Annotation name
+        short-hint : |
+            Provide a short, distinct, and recognizable name for this set of annotations
+        long-hint  : |
+            Provide a short, distinct, and recognizable name for this set of annotations
     ontology :
         ui-name : |
             Annotation namespace
